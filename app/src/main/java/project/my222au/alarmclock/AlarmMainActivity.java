@@ -22,7 +22,6 @@ public class AlarmMainActivity extends AppCompatActivity {
     private static final String TAG = AlarmMainActivity.class.getSimpleName();
     private TextView mCurrentTime;
     public static final String ALARM_BORADCAST = "project.my222au.alarmclock.ALARM_BROADCAST";
-    private static final String PREF_NAME = "alarmclock";
     private TextView mAlarmTime;
     private LinearLayout mLayout;
     private FloatingActionButton mFab;
