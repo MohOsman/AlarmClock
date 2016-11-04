@@ -40,23 +40,18 @@ public class AlarmMainActivity extends AppCompatActivity {
         mAlarmTime.setOnClickListener(new OnAlarmTimeClickListner());
         mLayout.setVisibility(View.INVISIBLE);
 
-
-
-
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setTime();
 
-
             }
 
 
         });
 
-
-        // uppdates the textviwe every second
+        // uppdates the textview every  5 seconds
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -71,18 +66,13 @@ public class AlarmMainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-
-
         super.onStart();
     }
 
     private Long setTime() {
-
         Calendar calender = Calendar.getInstance();
         final int hour = calender.get(Calendar.HOUR_OF_DAY);
         int minute = calender.get(Calendar.MINUTE);
-
-
         TimePickerDialog timepicker = new TimePickerDialog(AlarmMainActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -92,10 +82,7 @@ public class AlarmMainActivity extends AppCompatActivity {
                 calender.set(Calendar.SECOND, 00);
                 mAlarmTime.setText(formatdiget(hourOfDay) + ":" + formatdiget(minute));
                 mLayout.setVisibility(View.VISIBLE);
-
                 setAlarm(calender.getTimeInMillis());
-
-
             }
         }, hour, minute, true);
 
@@ -104,7 +91,6 @@ public class AlarmMainActivity extends AppCompatActivity {
 
         return calender.getTimeInMillis();
     }
-
     /***
      * Time for the textview uppdates every 5 seconds
      */
@@ -122,7 +108,6 @@ public class AlarmMainActivity extends AppCompatActivity {
 
 
     }
-
     /**
      *  adds zero to the time. if it is 13:3 ---> 13:(0)3
      * @param time
@@ -134,35 +119,32 @@ public class AlarmMainActivity extends AppCompatActivity {
         } else return "0" + String.valueOf(time);
     }
 
-
+ // setting the alarm using  pendingintent and  AlarmManger
     private void setAlarm(long time) {
         Intent intent = new Intent(ALARM_BORADCAST);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(AlarmMainActivity.this, 0, intent, 0);
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, time, alarmIntent);
         mFab.setVisibility(View.INVISIBLE);
-        Log.d(TAG, "setAlarm: ALarm is set");
+        Log.d(TAG, "setAlarm: Alarm is set");
 
 
     }
 
     /*
-    canceling the alram using same boradcast intent
+    canceling the alarm using same boradcast intent
      */
     private void cancelAlarm() {
-
         Intent intent = new Intent(ALARM_BORADCAST);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(AlarmMainActivity.this, 0, intent, 0);
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.cancel(alarmIntent);
-
-
         Log.d(TAG, "CancelAlarm: Alarm is Canceled");
 
 
     }
 
-
+     // alertdialog if the user wants to change or cancel the alarm.
     private android.app.AlertDialog setup_alert(int title, int message) {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setMessage(message);
@@ -170,7 +152,6 @@ public class AlarmMainActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.modify, new OnModifyClickListner());
         builder.setPositiveButton(R.string.cancel, new OnCancelClickListner());
         builder.setNeutralButton(R.string.abort, new OnAbortClickListner());
-
         return builder.create();
     }
 
@@ -192,7 +173,6 @@ public class AlarmMainActivity extends AppCompatActivity {
             setTime();
             mFab.setVisibility(View.INVISIBLE);
             dialog.dismiss();
-
         }
     }
 
@@ -202,14 +182,12 @@ public class AlarmMainActivity extends AppCompatActivity {
             cancelAlarm();
             mLayout.setVisibility(View.INVISIBLE);
             mFab.setVisibility(View.VISIBLE);
-
             dialog.dismiss();
 
         }
     }
 
     private class OnAbortClickListner implements DialogInterface.OnClickListener {
-
         @Override
         public void onClick(DialogInterface dialog, int which) {
             dialog.dismiss();

@@ -20,32 +20,14 @@ public class AlarmActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button);
         final MediaPlayer mediaPlayer = MediaPlayer.create(this , R.raw.sound);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
         mediaPlayer.start();
-
-        if(mediaPlayer.isPlaying()){
-
-            runOnUiThread(new Runnable() {
-                    int i=0  ;
-
-                    @Override
-                    public void run() {
-                        while (i < 1500) {
-                            Log.d("TAG", "run: "+i++);
-                        }
-
-                    }
-                });
-
-        }
-
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaPlayer.stop();
-              finishFromChild(getParent());
+                finish();
             }
         });
     }
